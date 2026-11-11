@@ -1,0 +1,47 @@
+{
+  "model_type": "ONNX",
+  "target_hardware": "AX650",
+  "npu_mode": "NPU3",
+  "input": "/workspace/model_convert/universr_split_8k_condenc.onnx",
+  "output_dir": "/workspace/build/compile/universr_split_8k_condenc",
+  "output_name": "model.axmodel",
+  "work_dir": "/workspace/build/compile/universr_split_8k_condenc_work",
+  "input_shapes": "y:1x2x80x128",
+  "onnx_opt": {
+    "disable_onnx_optimization": false,
+    "enable_onnxsim": false,
+    "model_check": true
+  },
+  "quant": {
+    "calibration_method": "MinMax",
+    "precision_analysis": false,
+    "highest_mix_precision": false,
+    "layer_configs": [
+      {
+        "start_tensor_names": [
+          "DEFAULT"
+        ],
+        "end_tensor_names": [
+          "DEFAULT"
+        ],
+        "data_type": "U16",
+        "weight_data_type": "S8",
+        "output_data_type": "U16"
+      }
+    ],
+    "input_configs": [
+      {
+        "tensor_name": "y",
+        "calibration_dataset": "/workspace/build/calib/split128/8k_condenc/y.tar.gz",
+        "calibration_format": "Numpy",
+        "calibration_size": 4,
+        "calibration_mean": [],
+        "calibration_std": []
+      }
+    ]
+  },
+  "input_processors": [],
+  "compiler": {
+    "check": 0
+  }
+}
